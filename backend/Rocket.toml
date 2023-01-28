@@ -1,0 +1,5 @@
+[default]
+address = "0.0.0.0"
+
+[default.databases.mongo]
+url = "mongodb://root:rootpassword@mongo:27017/?authSource=admin"
