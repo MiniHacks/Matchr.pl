@@ -53,11 +53,11 @@ function Swipe() {
         </Box>
       </Flex>
       <Flex gap="1rem" justify="space-between" > 
-          <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size={50} />}/>
-          <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsDown size={50} />}/>
-          <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronDown size={50} />}/>
-          <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronUp size={50} />}/>
-          <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsUp size={50} />}/>
+        <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size={50} />}/>
+        <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsDown size={50} />}/>
+        <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronDown size={50} />}/>
+        <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronUp size={50} />}/>
+        <IconButton bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsUp size={50} />}/>
       </Flex>
     </Flex>
   );
