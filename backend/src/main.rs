@@ -16,10 +16,10 @@ pub struct NQRequest {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Quote {
-    pub qid: String,
-    pub question: String,
+    pub quote: String,
     pub long: String,
-    pub link: String
+    pub link: String,
+    pub agreement: i32,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -93,8 +93,9 @@ async fn new_question(j: Json<NQRequest>, con: Connection<Mongo>) -> Result<Json
     let cid = candidates.choose(&mut rand::thread_rng()).unwrap().clone();
     let candidates: Collection<Candidate> = con.database("rustdb").collection("candidates");
     let cid_filter = doc! {
-        "cid": cid
+        "cid": cid.clone()
     };
+    println!("{}", cid);
     let candidate = candidates.find_one(cid_filter, None).await.unwrap().unwrap();
 
     let quote = candidate.quotes.choose(&mut rand::thread_rng()).unwrap();
