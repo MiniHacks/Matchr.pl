@@ -52,7 +52,7 @@ function Swipe() {
     }
 
     init();
-  });
+  }, []);
 
   // 0 superdislike, 1 dislike, 2 like, 3 superlike
   async function choice(option) {
