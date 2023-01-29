@@ -1,23 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Flex,
-  Box,
-  Text,
-  Image,
-  Heading, 
-  Icon
-} from '@chakra-ui/react';
-import {ArrowBackIcon, ChevronUpIcon, ChevronDownIcon, ArrowLeftIcon, ArrowRightIcon} from '@chakra-ui/icons';
+import { useState, useEffect } from 'react';
+import { Flex, Box, Text, Image, Heading, Icon } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
-import {FiChevronsUp} from 'react-icons/ri';
 import Profile from "../util/profile";
 
 
 function Swipe() {
-  console.log(Profile.getID());
-  console.log(Profile.getElection());
+  const [asked, setAsked] = useState(0);
+
   const [card, setCard] = useState({
-    quote : 'hi',
+    quote : 'First-trimester abortion is murder',
     word : 'greeting',
     definition : 'a way to greet someone',
     link : "https://.....com"
@@ -33,18 +24,35 @@ function Swipe() {
     //getQuote();
   });
 
+  if (card === undefined) {
+    return <>Still loading..</>
+  }
+
   return (
-    <Flex flexDirection='column' justify="space-around" align='center'>
+    <Flex 
+      flex="1"
+      flexDirection='column' 
+      justify="space-around" 
+      align='center'
+      padding="1rem"
+      gap="1rem"
+    >
+
       <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
-      <Flex> 
-        <Box borderRadius= '20' w = '350px' h = '600px' bg="#F7DBD7" paddingTop='25px' paddingBottom='50px' paddingRight='25px' paddingLeft='25px' margin-right='25px'>
-          <Text align='center' fontSize = {SiteSizes.subheading}> {card.quote}</Text>
+      <Flex 
+        flexDir="column" 
+        flex="1"
+        padding="2rem"
+        borderRadius="2rem"
+        bg={SiteThemes.mainColor}
+      >
+        <Box flex="0.5" align="center" fontSize={SiteSizes.subheading}>
+          <Text> Your Thoughts? </Text>
         </Box>
-        
-        </Flex>
-     <Flex flexDirection= 'row' > 
-          <Icon as={FiChevronsUp}/>
-       </Flex>
+        <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
+          <Text>{card.quote}</Text>
+        </Box>
+      </Flex>
     </Flex>
   );
 }

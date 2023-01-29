@@ -40,10 +40,11 @@ function Options() {
       flexDir="column"
       justify="space-around"
       align="center"
-      paddingBottom="1rem"
+      padding="1rem"
+      paddingTop="0rem"
     >
       <Text fontSize={SiteSizes.body}>
-        Select The Election You Wish To Find Your Match
+        Select The Election You Wish To Find Your Match At
       </Text>
       {
         options.map(option => {
