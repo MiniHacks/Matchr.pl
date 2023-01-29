@@ -192,7 +192,7 @@ function Swipe() {
         padding="1rem"
         gap="1rem"
       >
-        <Heading position='absolute' top='2.5vh' align='center' fontSize={SiteSizes.heading}> match.pol </Heading>
+        <Heading position='absolute' top='2.5vh' align='center' fontSize={SiteSizes.heading}> matchr.pl </Heading>
         <Spinner position='absolute' bottom= '45vh' right='38vw' thickness='8px' speed='0.65s' boxSize='90px' align-self='center' color= {SiteThemes.mainColor} />
       </Flex>
   )};
@@ -207,7 +207,7 @@ function Swipe() {
       padding="1rem"
       gap="1rem"
     >
-      <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
+      <Heading fontSize={SiteSizes.heading}> matchr.pl </Heading>
       {card}
       <Flex gap="1rem" justify="space-between" > 
         <IconButton onClick={() => console.log("based")} bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size={50} />}/>
