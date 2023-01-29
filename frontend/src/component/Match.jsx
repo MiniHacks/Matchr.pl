@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { Flex, Box, Text, Image, Heading, Spinner } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import Profile from '../util/profile';
+import { Spinner } from '@chakra-ui/react'
 import JSConfetti from 'js-confetti';
 import { useNavigate } from 'react-router-dom';
-
 
 
 function Match() {
@@ -38,13 +38,18 @@ function Match() {
   
 
   if (data === undefined) {
-    return (
-      <Flex flexDirection='column' justify="space-around" align='center'>
-        <Heading fontSize={SiteSizes.heading}> matchr.pl </Heading>
-        <Spinner position='absolute' bottom= '45vh' right='38vw' thickness='8px' speed='0.65s' boxSize='90px' align-self='center' color= {SiteThemes.mainColor} />
+    return(
+      <Flex 
+      flex="1"
+      flexDirection='column' 
+      justify="space-around" 
+      align='center'
+      padding="1rem"
+      gap="1rem">
+      <Heading position='absolute' top='2.5vh' align='center' fontSize={SiteSizes.heading}> match.pol </Heading>
+      <Spinner position='absolute' align='center' thickness='8px' speed='0.65s' boxSize='90px' align-self='center' color= {SiteThemes.mainColor} />
       </Flex>
-    )
-  }
+  )};
   jsConfetti.addConfetti({
     confettiColors: ['red', 'blue']
   })

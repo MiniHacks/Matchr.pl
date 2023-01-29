@@ -182,18 +182,21 @@ function Swipe() {
     setTimeout(async () => await getQuestion(), 1000);
   }
 
+
+  const handleToggle = () => setShow(!show)
+
   if (card === undefined) {
-    return (
+    return(
       <Flex 
-        flex="1"
-        flexDirection='column' 
-        justify="space-around" 
-        align='center'
-        padding="1rem"
-        gap="1rem"
-      >
-        <Heading position='absolute' top='2.5vh' align='center' fontSize={SiteSizes.heading}> matchr.pl </Heading>
-        <Spinner position='absolute' bottom= '45vh' right='38vw' thickness='8px' speed='0.65s' boxSize='90px' align-self='center' color= {SiteThemes.mainColor} />
+      flex="1"
+      flexDirection='column' 
+      justify="space-around" 
+      align='center'
+      padding="1rem"
+      gap="1rem">
+      <Heading position='absolute' top='2.5vh' align='center' fontSize={SiteSizes.heading}> match.pol </Heading>
+      <Spinner position='absolute'  align='center' thickness='8px' speed='0.65s' boxSize='90px' align-self='center' color= {SiteThemes.mainColor} />
+
       </Flex>
   )};
 
