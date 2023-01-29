@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Flex, Box, Heading, Text, IconButton} from '@chakra-ui/react';
+import { Flex, Box, Heading, Text, IconButton, Link, Collapse} from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import { useNavigate } from 'react-router-dom';
-import {FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft} from 'react-icons/fi';
+import { InfoIcon } from '@chakra-ui/icons';
+import { FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft } from 'react-icons/fi';
 import Profile from "../util/profile";
 
 // quote: 'First-trimester abortion is murder',
@@ -13,6 +14,7 @@ import Profile from "../util/profile";
 
 function Swipe() {
   const [card, setCard] = useState(undefined);
+  const [show, setShow] = useState(false)
   const [asked, setAsked] = useState(0);
   const navigate = useNavigate();
 
@@ -71,6 +73,8 @@ function Swipe() {
     await getQuestion();
   }
 
+  const handleToggle = () => setShow(!show)
+
   if (asked === 15) {
     navigate("/match");
   }
@@ -102,6 +106,15 @@ function Swipe() {
         <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
           <Text>"{card.quote}"</Text>
         </Box>
+        <Box align="right" >
+          <InfoIcon onClick={handleToggle} boxSize="30px" colorScheme="black"/>
+        </Box>
+        <Collapse startingHeight={5} in={show}>
+          <Box width="250px" pt="1rem">
+            <Text>{card.long}</Text>
+            <Link href={card.link} isExternal>More Info</Link>
+          </Box>
+        </Collapse>
       </Flex>
       <Flex gap="1rem" justify="space-between" > 
         <IconButton onClick={() => console.log("based")} bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size={50} />}/>
