@@ -2,8 +2,9 @@
 extern crate rocket;
 use rocket::{get, http::Status, serde::json::Json};
 use rocket_db_pools::{mongodb, Database, Connection};
-use mongodb::bson::doc;
+use mongodb::{bson::doc, Collection};
 use serde::{Serialize, Deserialize};
+use rand::seq::SliceRandom;
 
 mod cors;
 
@@ -13,12 +14,37 @@ pub struct NQRequest {
     pub uid: String
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct NQResponse {
+#[derive(Serialize, Deserialize, Clone)]
+pub struct Quote {
     pub qid: String,
     pub question: String,
     pub long: String,
     pub link: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct QuestionResponse {
+    pub question: String,
+    pub response: i32,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Quiz {
+    pub uid: String,
+    pub eid: String,
+    pub questions: Vec<QuestionResponse>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Candidate {
+    pub cid: String,
+    pub quotes: Vec<Quote>,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct Election {
+    pub eid: String,
+    pub candidates: Vec<String>,
 }
 
 #[derive(Database)]
@@ -29,16 +55,51 @@ struct Mongo(mongodb::Client);
 //   http://127.0.0.1:8000/hello/world
 
 #[get("/nq", data = "<j>")]
-async fn new_question(j: Json<NQRequest>) -> Result<Json<NQResponse>, Status> {
+async fn new_question(j: Json<NQRequest>, con: Connection<Mongo>) -> Result<Json<Quote>, Status> {
     let request = j.into_inner();
 
-    let response = NQResponse {
-        qid: String::from("123"),
-        question: String::from("1234"),
-        long: String::from("12345"),
-        link: String::from("123456")
+    let filter = doc! {
+        "eid": request.eid.clone(),
+        "uid": request.uid.clone(),
     };
-    return Ok(Json(response))
+
+    let quizzes: Collection<Quiz> = con.database("rustdb").collection("quizzes");
+    let mongo_quiz = quizzes.find_one(filter, None).await.unwrap();
+    match mongo_quiz {
+        Some(quiz) => {
+            for qr in quiz.questions.iter() {
+                println!("{}", qr.question);
+            }
+        },
+        None => {
+            let questions: Vec<QuestionResponse> = Vec::new();
+            let quiz = Quiz {
+                eid: request.eid.clone(),
+                uid: request.uid.clone(),
+                questions: questions,
+            };
+
+            let result = quizzes.insert_one(quiz, None).await;
+        },
+    }
+
+    let elections: Collection<Election> = con.database("rustdb").collection("elections");
+    let eid_filter = doc! {
+        "eid": request.eid.clone(),
+    };
+    let election = elections.find_one(eid_filter, None).await.unwrap().unwrap();
+    let candidates = election.candidates;
+
+    let cid = candidates.choose(&mut rand::thread_rng()).unwrap().clone();
+    let candidates: Collection<Candidate> = con.database("rustdb").collection("candidates");
+    let cid_filter = doc! {
+        "cid": cid
+    };
+    let candidate = candidates.find_one(cid_filter, None).await.unwrap().unwrap();
+
+    let quote = candidate.quotes.choose(&mut rand::thread_rng()).unwrap();
+
+    return Ok(Json(quote.clone()))
 }
 
 #[get("/value")]
