@@ -6,19 +6,19 @@ import Profile from '../util/profile';
 function Hero() {
   return (
     <Flex
-      minHeight="75vh"
+      minHeight="35vh"
       justify="space-around"
       align="center"
       flexDir="column"
       bg={SiteThemes.mainColor}
     >
       <Heading fontSize={SiteSizes.heading}>
-        match.pol
+        matchr.pl
       </Heading>
       <Text fontSize={SiteSizes.body}>
         The place to find your
       </Text>
-      <Heading fontSize={SiteSizes.subheading}>
+      <Heading fontSize={SiteSizes.electionheading}>
         Political Match
       </Heading>
     </Flex>
@@ -43,7 +43,7 @@ function Options() {
       padding="1rem"
       paddingTop="0rem"
     >
-      <Text fontSize={SiteSizes.body}>
+      <Text align='center' fontSize={SiteSizes.body}>
         Select The Election You Wish To Find Your Match At
       </Text>
       {
@@ -58,7 +58,7 @@ function Options() {
               _hover={{ filter: "brightness(0.7)", color: "black" }}
               onClick={selected}
             >
-              <Text fontSize={SiteSizes.subbody}>{option}</Text>
+              <Text fontSize={SiteSizes.election}>{option}</Text>
             </Box>
           );
         })
