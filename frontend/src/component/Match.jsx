@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { Flex, Box, Text, Image, Heading, Spinner } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import Profile from '../util/profile';
-import { Spinner } from '@chakra-ui/react'
 import JSConfetti from 'js-confetti';
 import { useNavigate } from 'react-router-dom';
 
