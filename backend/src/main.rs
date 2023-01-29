@@ -5,6 +5,10 @@ use rocket_db_pools::{mongodb, Database, Connection};
 use mongodb::{bson::doc, Collection, bson, bson::Bson};
 use serde::{Serialize, Deserialize};
 use rand::seq::SliceRandom;
+use rocket::response::status::NotFound;
+use rocket::fs::NamedFile;
+use std::path::PathBuf;
+use std::path::Path;
 
 mod cors;
 
@@ -49,7 +53,7 @@ pub struct Candidate {
     pub quotes: Vec<Quote>,
     pub name: String,
     pub desc: String,
-    pub image: Bson,
+    pub image: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -66,7 +70,7 @@ pub struct DoneRequest {
 
 #[derive(Serialize, Deserialize)]
 pub struct DoneResponse {
-    pub image: Bson,
+    pub image: String,
     pub name: String,
     pub desc: String,
     pub agreed: Vec<Quote>,
@@ -228,7 +232,7 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
                 println!("{} {}", quote.quote.clone(), qr.question.clone());
                 if quote.quote == qr.question {
                     total += qr.response;
-                    if quote.agreement == qr.response {
+                    if  qr.response == 2 || qr.response == 3 {
                         agreed.push(quote.clone());
                     } else {
                         disagreed.push(quote.clone());
@@ -259,7 +263,13 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
     return Ok(Json(response))
 }
 
+#[get("/static/<path..>")]
+async fn static_files(path: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/").join(path)).await.ok()
+}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build().attach(Mongo::init()).attach(cors::Cors).mount("/", routes![value, hello, new_question, send, done])
+    rocket::build().attach(Mongo::init()).attach(cors::Cors)
+        .mount("/", routes![value, hello, new_question, send, done, static_files])
 }
