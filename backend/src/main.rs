@@ -77,7 +77,7 @@ struct Mongo(mongodb::Client);
 // Try visiting:
 //   http://127.0.0.1:8000/hello/world
 
-#[get("/nq", data = "<j>")]
+#[post("/nq", data = "<j>")]
 async fn new_question(j: Json<NQRequest>, con: Connection<Mongo>) -> Result<Json<Quote>, Status> {
     let request = j.into_inner();
 
@@ -126,7 +126,7 @@ async fn new_question(j: Json<NQRequest>, con: Connection<Mongo>) -> Result<Json
     return Ok(Json(quote.clone()))
 }
 
-#[get("/send", data = "<j>")]
+#[post("/send", data = "<j>")]
 async fn send(con: Connection<Mongo>, j: Json<SNRequest>) -> Result<Json<String>, Status> {
     let request = j.into_inner();
 
@@ -186,7 +186,7 @@ async fn hello(con: Connection<Mongo>) -> Result<Json<String>, Status> {
     Ok(Json(String::from("Hello from rust and mongoDB")))
 }
 
-#[get("/done", data = "<j>")]
+#[post("/done", data = "<j>")]
 async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneResponse>, Status> {
     let request = j.into_inner();
     let filter = doc! {
