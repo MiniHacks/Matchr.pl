@@ -6,6 +6,7 @@ import { InfoIcon } from '@chakra-ui/icons';
 import { FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft } from 'react-icons/fi';
 import Profile from "../util/profile";
 
+
 // quote: 'First-trimester abortion is murder',
 // long: 'a way to greet someone',
 // link: "https://.....com",
@@ -36,6 +37,10 @@ function Swipe() {
   }
 
   useEffect(() => {
+    if(Profile.getElection() === undefined){
+      navigate('/');
+      return;
+    }
     async function init() {
       const response = await fetch("http://localhost:8000/nq", {
         method: "POST",
