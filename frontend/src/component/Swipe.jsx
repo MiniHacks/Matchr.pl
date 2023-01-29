@@ -61,12 +61,6 @@ function Swipe() {
             <Box align="right" >
               <InfoIcon onClick={setShow(last => !last)} boxSize="30px" />
             </Box>
-            <Collapse startingHeight={5} in={show}>
-              <Box width="250px" pt="1rem">
-                <Text>{result.long}</Text>
-                <Link href={result.link} isExternal>More Info</Link>
-              </Box>
-            </Collapse>
           </Flex>
         </TinderCard>
       </Fade>
@@ -114,12 +108,6 @@ function Swipe() {
             <Box align="right" >
               <InfoIcon onClick={setShow(last => !last)} boxSize="30px" />
             </Box>
-            <Collapse startingHeight={5} in={show}>
-              <Box width="250px" pt="0.7rem">
-                <Text>{result.long}</Text>
-                <Link href={result.link} isExternal>More Info</Link>
-              </Box>
-            </Collapse>
           </Flex>
         </TinderCard>
       </Fade>
