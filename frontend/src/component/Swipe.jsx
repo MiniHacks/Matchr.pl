@@ -1,6 +1,7 @@
-import { useState, useEffect, useNavigate } from 'react';
+import { useState, useEffect } from 'react';
 import { Flex, Box, Heading, Text, IconButton} from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
+import { useNavigate } from 'react-router-dom';
 import {FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft} from 'react-icons/fi';
 import Profile from "../util/profile";
 
@@ -16,7 +17,7 @@ function Swipe() {
 
   async function getQuestion() {
     const response = await fetch("http://localhost:8000/nq", {
-      method: "GET",
+      method: "POST",
       body: JSON.stringify({
         uid: Profile.getID(), 
         eid: Profile.getElection()
@@ -31,12 +32,31 @@ function Swipe() {
     setCard(result);
   }
 
-  useEffect(() => getQuestion());
+  useEffect(() => {
+    async function init() {
+      const response = await fetch("http://localhost:8000/nq", {
+        method: "POST",
+        body: JSON.stringify({
+          uid: Profile.getID(), 
+          eid: Profile.getElection()
+        })
+      });
+  
+      if (!response.ok) return;
+  
+      const result = await response.json();
+  
+      setAsked(lastAsked => lastAsked++);
+      setCard(result);
+    }
+
+    init();
+  });
 
   // 0 superdislike, 1 dislike, 2 like, 3 superlike
   async function choice(option) {
     const sent = await fetch("http://localhost:8000/send", {
-      method: "GET",
+      method: "POST",
       body: JSON.stringify({ 
         uid: Profile.getID(), 
         eid: Profile.getElection(), 
