@@ -5,6 +5,10 @@ use rocket_db_pools::{mongodb, Database, Connection};
 use mongodb::{bson::doc, Collection, bson, bson::Bson};
 use serde::{Serialize, Deserialize};
 use rand::seq::SliceRandom;
+use rocket::response::status::NotFound;
+use rocket::fs::NamedFile;
+use std::path::PathBuf;
+use std::path::Path;
 
 mod cors;
 
@@ -259,7 +263,13 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
     return Ok(Json(response))
 }
 
+#[get("/static/<path..>")]
+async fn static_files(path: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/").join(path)).await.ok()
+}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build().attach(Mongo::init()).attach(cors::Cors).mount("/", routes![value, hello, new_question, send, done])
+    rocket::build().attach(Mongo::init()).attach(cors::Cors)
+        .mount("/", routes![value, hello, new_question, send, done, static_files])
 }
