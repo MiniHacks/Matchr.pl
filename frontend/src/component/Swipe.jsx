@@ -130,31 +130,31 @@ function Swipe() {
     switch (option) {
       case 0:
         cardRef.current.swipe('up');
-        jsConfetti.addConfetti({
-          emojiSize: 150,
-          emojis: ['🚽'],
-        })
+        // jsConfetti.addConfetti({
+        //   emojiSize: 150,
+        //   emojis: ['🚽'],
+        // })
         break;
       case 1:
         cardRef.current.swipe('left');
-        jsConfetti.addConfetti({
-          emojiSize: 150,
-          emojis: ['🤢'],
-        })
+        // jsConfetti.addConfetti({
+        //   emojiSize: 150,
+        //   emojis: ['🤢'],
+        // })
         break;
       case 2:
         cardRef.current.swipe('right'); 
-        jsConfetti.addConfetti({
-          emojiSize: 150,
-          emojis: ['❤️'],
-        })
+        // jsConfetti.addConfetti({
+        //   emojiSize: 150,
+        //   emojis: ['❤️'],
+        // })
         break;
       default:
         cardRef.current.swipe('down');
-        jsConfetti.addConfetti({
-          emojiSize: 150,
-          emojis: ['🔥'],
-        })
+        // jsConfetti.addConfetti({
+        //   emojiSize: 150,
+        //   emojis: ['🔥'],
+        // })
     }
   
   
