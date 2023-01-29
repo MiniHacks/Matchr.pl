@@ -120,6 +120,7 @@ name = "backend"
 version = "0.1.0"
 dependencies = [
  "mongodb",
+ "rand",
  "rocket",
  "rocket_db_pools",
  "serde",
