@@ -26,7 +26,7 @@ function Hero() {
 }
 
 function Options() {
-  const options = ["School Boards", "Minneapolis Mayor", "Minnesota Governer"];
+  const options = ["School Boards", "Minneapolis Mayor", "Minnesota Governer"]; // 72ff8a12-6460-4059-9836-d2d86a091c02
   const navigate = useNavigate();
 
   function selected(event) {

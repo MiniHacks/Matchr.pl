@@ -9,6 +9,7 @@ import Profile from "../util/profile";
 // long: 'a way to greet someone',
 // link: "https://.....com",
 // agreement: "based"
+// 72ff8a12-6460-4059-9836-d2d86a091c02
 
 function Swipe() {
   const [card, setCard] = useState(undefined);
@@ -20,7 +21,7 @@ function Swipe() {
       method: "POST",
       body: JSON.stringify({
         uid: Profile.getID(), 
-        eid: Profile.getElection()
+        eid: "72ff8a12-6460-4059-9836-d2d86a091c02"
       })
     });
 
@@ -38,7 +39,7 @@ function Swipe() {
         method: "POST",
         body: JSON.stringify({
           uid: Profile.getID(), 
-          eid: Profile.getElection()
+          eid: "72ff8a12-6460-4059-9836-d2d86a091c02"
         })
       });
   
@@ -59,7 +60,7 @@ function Swipe() {
       method: "POST",
       body: JSON.stringify({ 
         uid: Profile.getID(), 
-        eid: Profile.getElection(), 
+        eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 
         question: card.quote,
         agreement: option
       })
