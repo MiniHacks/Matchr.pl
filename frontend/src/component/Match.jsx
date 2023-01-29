@@ -8,11 +8,12 @@ import {
 } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import Profile from '../util/profile';
+import JSConfetti from 'js-confetti';
 
 
 function Match() {
   const [data, setData] = useState(undefined);
-
+  const jsConfetti = new JSConfetti();
   useEffect(() => {
     async function getResult() {
       const response = await fetch('http://localhost:8000/done', {
@@ -37,6 +38,9 @@ function Match() {
   if (data === undefined) {
     return <>Still loading..</>
   }
+  jsConfetti.addConfetti({
+    confettiColors: ['red', 'blue']
+  })
 
   return (
     <Flex flexDirection='column' justify="space-around" align='center'>
