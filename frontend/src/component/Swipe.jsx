@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Flex, Box, Heading, Text, IconButton} from '@chakra-ui/react';
+import { Flex, Box, Heading, Text, IconButton, Link, Collapse} from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import { useNavigate } from 'react-router-dom';
-import {FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft} from 'react-icons/fi';
+import { InfoIcon } from '@chakra-ui/icons';
+import { FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft } from 'react-icons/fi';
 import Profile from "../util/profile";
 
 // quote: 'First-trimester abortion is murder',
@@ -13,6 +14,7 @@ import Profile from "../util/profile";
 
 function Swipe() {
   const [card, setCard] = useState(undefined);
+  const [show, setShow] = useState(false)
   const [asked, setAsked] = useState(0);
   const navigate = useNavigate();
 
@@ -29,7 +31,7 @@ function Swipe() {
 
     const result = await response.json();
 
-    setAsked(lastAsked => lastAsked++);
+    setAsked(lastAsked => lastAsked + 1);
     setCard(result);
   }
 
@@ -47,7 +49,7 @@ function Swipe() {
   
       const result = await response.json();
   
-      setAsked(lastAsked => lastAsked++);
+      setAsked(lastAsked => lastAsked + 1);
       setCard(result);
     }
 
@@ -56,6 +58,11 @@ function Swipe() {
 
   // 0 superdislike, 1 dislike, 2 like, 3 superlike
   async function choice(option) {
+
+    if (asked === 15) {
+      navigate("/match");
+    }
+
     const sent = await fetch("http://localhost:8000/send", {
       method: "POST",
       body: JSON.stringify({ 
@@ -71,9 +78,7 @@ function Swipe() {
     await getQuestion();
   }
 
-  if (asked === 15) {
-    navigate("/match");
-  }
+  const handleToggle = () => setShow(!show)
 
   if (card === undefined) {
     return <>Still loading..</>
@@ -102,6 +107,15 @@ function Swipe() {
         <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
           <Text>"{card.quote}"</Text>
         </Box>
+        <Box align="right" >
+          <InfoIcon onClick={handleToggle} boxSize="30px" />
+        </Box>
+        <Collapse startingHeight={5} in={show}>
+          <Box width="250px" pt="1rem">
+            <Text>{card.long}</Text>
+            <Link href={card.link} isExternal>More Info</Link>
+          </Box>
+        </Collapse>
       </Flex>
       <Flex gap="1rem" justify="space-between" > 
         <IconButton onClick={() => console.log("based")} bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size={50} />}/>
