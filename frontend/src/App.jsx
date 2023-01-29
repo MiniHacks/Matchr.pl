@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, } from 'react-router-dom';
+import { SiteThemes } from './util/global';
 import { chakra } from '@chakra-ui/react';
 import Landing from './component/Landing';
 import Swipe from './component/Swipe';
 import Match from './component/Match';
-import { SiteThemes } from './util/global';
 
 function App() {
   return (

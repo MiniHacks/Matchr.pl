@@ -10,9 +10,12 @@ import {
 import {ArrowBackIcon, ChevronUpIcon, ChevronDownIcon, ArrowLeftIcon, ArrowRightIcon} from '@chakra-ui/icons';
 import { SiteThemes, SiteSizes } from '../util/global';
 import {FiChevronsUp} from 'react-icons/ri';
+import Profile from "../util/profile";
 
 
 function Swipe() {
+  console.log(Profile.getID());
+  console.log(Profile.getElection());
   const [card, setCard] = useState({
     quote : 'hi',
     word : 'greeting',
@@ -23,10 +26,7 @@ function Swipe() {
   useEffect(() => {
     async function getQuote(){
       const response = await fetch('http://localhost:8000/nq');
-      if(!response.ok){
-        console.log("error");
-        return;
-      }
+      if (!response.ok) return;
       const result = await response.json();
       setCard(result);
     }

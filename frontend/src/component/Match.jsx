@@ -6,31 +6,27 @@ import {
   Image,
   Heading
 } from '@chakra-ui/react';
-import { SiteThemes, SiteSizes } from '../util/global';
+import { SiteSizes } from '../util/global';
 
 
 function Match() {
   const [data, setData] = useState({
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/68/Joe_Biden_presidential_portrait.jpg',
-      cand: 'Joe Biden',
-      match: '88',
-      description: 'description'
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/68/Joe_Biden_presidential_portrait.jpg',
+    cand: 'Joe Biden',
+    match: '88',
+    description: 'description'
   })
 
-      useEffect(() => {
-        async function getResults(){
-          const response = await fetch('http://localhost:8000/done');
-          if(!response.ok){
-            console.log("error");
-            return;
-          } 
-          const result = await response.json();
-          setData(result);
-          console.log("hi!");
-        }
-        //getResults();
-        
-      });
+  useEffect(() => {
+    async function getResults(){
+      const response = await fetch('http://localhost:8000/done');
+      if (!response.ok) return;
+      const result = await response.json();
+      setData(result);
+    }
+    //getResults();
+  });
+  
   return (
     <Flex flexDirection='column' justify="space-around" align='center'>
       <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
