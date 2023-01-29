@@ -49,7 +49,7 @@ pub struct Candidate {
     pub quotes: Vec<Quote>,
     pub name: String,
     pub desc: String,
-    pub image: Bson,
+    pub image: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -66,7 +66,7 @@ pub struct DoneRequest {
 
 #[derive(Serialize, Deserialize)]
 pub struct DoneResponse {
-    pub image: Bson,
+    pub image: String,
     pub name: String,
     pub desc: String,
     pub agreed: Vec<Quote>,
