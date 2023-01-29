@@ -9,6 +9,7 @@ import TinderCard from 'react-tinder-card';
 import JSConfetti from 'js-confetti';
 import { Spinner } from '@chakra-ui/react'
 
+
 // quote: 'First-trimester abortion is murder',
 // long: 'a way to greet someone',
 // link: "https://.....com",
@@ -73,6 +74,10 @@ function Swipe() {
   }
 
   useEffect(() => {
+    if(Profile.getElection() === undefined){
+      navigate('/');
+      return;
+    }
     async function init() {
       const response = await fetch("http://localhost:8000/nq", {
         method: "POST",

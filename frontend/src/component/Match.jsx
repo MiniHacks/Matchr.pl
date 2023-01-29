@@ -8,12 +8,18 @@ import {
 } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import Profile from '../util/profile';
+import { useNavigate } from 'react-router-dom';
 
 
 function Match() {
   const [data, setData] = useState(undefined);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if(Profile.getElection() === undefined){
+      navigate('/');
+      return;
+    }
     async function getResult() {
       const response = await fetch('http://localhost:8000/done', {
         method: "POST",
