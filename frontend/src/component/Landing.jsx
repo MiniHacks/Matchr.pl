@@ -13,7 +13,7 @@ function Hero() {
       bg={SiteThemes.mainColor}
     >
       <Heading fontSize={SiteSizes.heading}>
-        match.pol
+        matchr.pl
       </Heading>
       <Text fontSize={SiteSizes.body}>
         The place to find your

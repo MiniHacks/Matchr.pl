@@ -15,7 +15,7 @@ function Match() {
 
   useEffect(() => {
     async function getResult() {
-      const response = await fetch('http://localhost:8000/done', {
+      const response = await fetch('http://matchr.pl:8000/done', {
         method: "POST",
         body: JSON.stringify({ 
           eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 
@@ -40,7 +40,7 @@ function Match() {
 
   return (
     <Flex flexDirection='column' justify="space-around" align='center'>
-      <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
+      <Heading fontSize={SiteSizes.heading}> matchr.pl </Heading>
       <Flex> 
         <Box borderRadius= '20' w = '350px' h = '700px' bg="#FAEACB" paddingTop='25px' paddingBottom='50px' paddingRight='25px' paddingLeft='25px' margin-right='25px'>
           <Image borderRadius = '20' boxSize='300px' objectFit='cover' src={`data:image/jpeg;base64,${data.image}`} alt={data.cand} />
