@@ -1,15 +1,9 @@
-import React from 'react';
-import {
-  Flex,
-  Box,
-  Text,
-} from '@chakra-ui/react';
+import Profile from "../util/profile";
 
 function Swipe() {
-    const candidate = {
-        imageUrl: 'https://bit.ly/2Z4KKcF',
-        imageAlt: 'Joe Biden',
-      }
+  console.log(Profile.getID());
+  console.log(Profile.getElection());
+
   return (
     <h1>swipe</h1>
     // <Flex>
