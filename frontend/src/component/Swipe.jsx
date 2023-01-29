@@ -19,7 +19,7 @@ function Swipe() {
   const navigate = useNavigate();
 
   async function getQuestion() {
-    const response = await fetch("http://localhost:8000/nq", {
+    const response = await fetch("http://matchr.pl:8000/nq", {
       method: "POST",
       body: JSON.stringify({
         uid: Profile.getID(), 
@@ -37,7 +37,7 @@ function Swipe() {
 
   useEffect(() => {
     async function init() {
-      const response = await fetch("http://localhost:8000/nq", {
+      const response = await fetch("http://matchr.pl:8000/nq", {
         method: "POST",
         body: JSON.stringify({
           uid: Profile.getID(), 
@@ -63,7 +63,7 @@ function Swipe() {
       navigate("/match");
     }
 
-    const sent = await fetch("http://localhost:8000/send", {
+    const sent = await fetch("http://matchr.pl:8000/send", {
       method: "POST",
       body: JSON.stringify({ 
         uid: Profile.getID(), 
@@ -93,7 +93,7 @@ function Swipe() {
       padding="1rem"
       gap="1rem"
     >
-      <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
+      <Heading fontSize={SiteSizes.heading}> matchr.pl </Heading>
       <Flex 
         flexDir="column" 
         flex="1"
