@@ -119,7 +119,7 @@ function Swipe() {
 
   const handleToggle = () => setShow(!show)
 
-  while (card === undefined) {
+  if (card === undefined) {
     return(
       <Flex 
       flex="1"
