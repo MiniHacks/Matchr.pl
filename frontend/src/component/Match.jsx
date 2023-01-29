@@ -56,8 +56,8 @@ function Match() {
   return (
     <Flex flexDirection='column' justify="space-around" align='center' padding="1rem">
       <Heading fontSize={SiteSizes.heading}> matchr.pl </Heading>
-      <Flex bg="#FAEACB" flexDirection="column" gap="0.5rem" width="500px" padding="1rem" borderRadius="2rem"> 
-        <Image borderRadius = '20' boxSize='300px' objectFit='cover' src={`http://localhost:8000/static/${data.image}`} />
+      <Flex bg="#FAEACB" flexDirection="column" gap="0.5rem" width="300px" padding="1rem" borderRadius="2rem"> 
+        <Image borderRadius = '20' boxSize='300px' objectFit='cover' src={`http://matchr.pl:8000/static/${data.image}`} />
         <Text fontSize = {SiteSizes.subheading} align='center'>{data.name}</Text>
         <Text fontSize = {SiteSizes.subheading} align='center'>{Math.floor((data.agreed.length * 100) / (data.agreed.length + data.disagreed.length))}% Match</Text>
         <Text fontSize={SiteSizes.body} align='center'>{data.desc}</Text>
