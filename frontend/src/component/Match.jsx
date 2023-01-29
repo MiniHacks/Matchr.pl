@@ -2,11 +2,14 @@ import React, {useEffect, useState} from 'react';
 import { Flex, Box, Text, Image, Heading, Spinner } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import Profile from '../util/profile';
+import JSConfetti from 'js-confetti';
 import { useNavigate } from 'react-router-dom';
+
 
 
 function Match() {
   const [data, setData] = useState(undefined);
+  const jsConfetti = new JSConfetti();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +45,9 @@ function Match() {
       </Flex>
     )
   }
+  jsConfetti.addConfetti({
+    confettiColors: ['red', 'blue']
+  })
 
   return (
     <Flex flexDirection='column' justify="space-around" align='center'>
