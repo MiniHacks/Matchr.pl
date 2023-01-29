@@ -24,9 +24,9 @@ if __name__ == '__main__':
                 lines = f.readlines()
                 quotes = []
                 for i in range(0, len(lines), 3):
-                    short = lines[i]
-                    long = lines[i + 1]
-                    link = lines[i + 2]
+                    short = lines[i].strip()
+                    long = lines[i + 1].strip()
+                    link = lines[i + 2].strip()
                     quotes = []
                     quotes.append({"quote": short, "long": long, "agreement": 3, "link": link})
                 print("pre insert")
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         fPath = os.path.join("./elections", filename)
         if os.path.isfile(fPath):
             with open(fPath) as f:
-                cids = f.readlines()
+                cids = f.read().splitlines()
                 db["elections"].insert_one({"eid": filename, "candidates": cids})
     
 

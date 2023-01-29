@@ -213,7 +213,7 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
     for cid in election.candidates.iter() {
         let mut total = 0;
         let cid_filter = doc! {
-            "cid": cid.clone()
+            "cid": cid.clone(),
         };
         println!("{}", cid);
         let candidate = candidates.find_one(cid_filter, None).await.unwrap().unwrap();
