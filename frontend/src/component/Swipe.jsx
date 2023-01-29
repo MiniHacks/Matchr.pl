@@ -5,11 +5,11 @@ import {
   Text,
   Image,
   Heading, 
-  Icon
+  IconButton
 } from '@chakra-ui/react';
 import {ArrowBackIcon, ChevronUpIcon, ChevronDownIcon, ArrowLeftIcon, ArrowRightIcon} from '@chakra-ui/icons';
 import { SiteThemes, SiteSizes } from '../util/global';
-import {FiChevronsUp} from 'react-icons/ri';
+import {FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft} from 'react-icons/fi';
 import Profile from "../util/profile";
 
 
@@ -43,8 +43,12 @@ function Swipe() {
         
         </Flex>
      <Flex flexDirection= 'row' > 
-          <Icon as={FiChevronsUp}/>
-       </Flex>
+        <IconButton size = 'lg' bg= {SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size='lg'/>}/>
+        <IconButton size = 'lg' bg= {SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsDown size='lg'/>}/>
+        <IconButton size = 'lg' bg= {SiteThemes.backgroundColor} isRound='true' icon={<FiChevronDown size='lg'/>}/>
+        <IconButton size = 'lg' bg= {SiteThemes.backgroundColor} isRound='true' icon={<FiChevronUp size='lg'/>}/>
+        <IconButton size = 'lg' bg= {SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsUp size='lg'/>}/>
+      </Flex>
     </Flex>
   );
 }
