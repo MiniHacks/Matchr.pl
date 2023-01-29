@@ -232,7 +232,7 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
                 println!("{} {}", quote.quote.clone(), qr.question.clone());
                 if quote.quote == qr.question {
                     total += qr.response;
-                    if quote.agreement == qr.response {
+                    if  qr.response == 2 || qr.response == 3 {
                         agreed.push(quote.clone());
                     } else {
                         disagreed.push(quote.clone());
