@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { chakra } from '@chakra-ui/react';
 import Landing from './component/Landing';
 import Swipe from './component/Swipe';
@@ -9,6 +9,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+import React from 'react';
 
 function App() {
   const [value, setValue] = useState(0);
