@@ -6,7 +6,7 @@ import {
   Image,
   Heading
 } from '@chakra-ui/react';
-import { SiteSizes } from '../util/global';
+import { SiteThemes, SiteSizes } from '../util/global';
 
 
 function Match() {
@@ -25,8 +25,8 @@ function Match() {
       setData(result);
     }
     //getResults();
+    
   });
-  
   return (
     <Flex flexDirection='column' justify="space-around" align='center'>
       <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
