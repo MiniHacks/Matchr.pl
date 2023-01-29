@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
+import { chakra } from '@chakra-ui/react';
+import Landing from './component/Landing';
+import Swipe from './component/Swipe';
+import Match from './component/Match';
+import { theme } from './util/global';
 import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-  Button,
-} from '@chakra-ui/react';
-import { ColorModeSwitcher } from './component/ColorModeSwitcher';
-import { Logo } from './component/Logo';
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom';
 
 function App() {
   const [value, setValue] = useState(0);
@@ -29,12 +26,12 @@ function App() {
       display="flex" 
       flexDirection="column" 
       minHeight="100vh"
-      bgColor={SiteTheme.white}
+      bgColor={theme}
     >
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/swipe" element={<Swiping />} />
+          <Route path="/swipe" element={<Swipe />} />
           <Route path="/match" element={<Match />} />
         </Routes>
       </BrowserRouter>
