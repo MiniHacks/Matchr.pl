@@ -6,6 +6,7 @@ import { InfoIcon } from '@chakra-ui/icons';
 import { FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft } from 'react-icons/fi';
 import Profile from "../util/profile";
 import TinderCard from 'react-tinder-card';
+import JSConfetti from 'js-confetti';
 
 // quote: 'First-trimester abortion is murder',
 // long: 'a way to greet someone',
@@ -14,6 +15,7 @@ import TinderCard from 'react-tinder-card';
 // 72ff8a12-6460-4059-9836-d2d86a091c02
 
 function Swipe() {
+  const jsConfetti = new JSConfetti();
   const [card, setCard] = useState(undefined);
   const [show, setShow] = useState(false)
   const [asked, setAsked] = useState(0);
@@ -55,19 +57,43 @@ function Swipe() {
       setCard(result);
     }
 
-    init();
+    //init();
   }, []);
 
   // 0 superdislike, 1 dislike, 2 like, 3 superlike
   async function choice(option) {
 
     switch (option) {
-      case 0: cardRef.current.swipe('up'); break;
-      case 1: cardRef.current.swipe('left'); break;
-      case 2: cardRef.current.swipe('right'); break;
-      case 3: cardRef.current.swipe('down');
+      case 0:
+        cardRef.current.swipe('up');
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🚽'],
+        })
+        break;
+      case 1:
+        cardRef.current.swipe('left');
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🤢'],
+        })
+        break;
+      case 2:
+        cardRef.current.swipe('right'); 
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['❤️'],
+        })
+        break;
+      default:
+        cardRef.current.swipe('down');
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🔥'],
+        })
     }
-
+  
+  
     if (asked === 15) {
       navigate("/match");
     }
@@ -75,9 +101,9 @@ function Swipe() {
     const sent = await fetch("http://localhost:8000/send", {
       method: "POST",
       body: JSON.stringify({ 
-        uid: Profile.getID(), 
+        uid: 10, //Profile.getID(), 
         eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 
-        question: card.quote,
+        question: "hi", //card.quote,
         agreement: option
       })
     });
@@ -92,9 +118,9 @@ function Swipe() {
 
   const handleToggle = () => setShow(!show)
 
-  if (card === undefined) {
-    return <>Still loading..</>
-  }
+  // if (card === undefined) {
+  //   return <>Still loading..</>
+  // }
 
   return (
     <Flex 
@@ -120,15 +146,15 @@ function Swipe() {
             <Text> Your Thoughts? </Text>
           </Box>
           <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
-            <Text>"{card.quote}"</Text>
+            {/* <Text>"{card.quote}"</Text> */}
           </Box>
           <Box align="right" >
             <InfoIcon onClick={handleToggle} boxSize="30px" />
           </Box>
           <Collapse startingHeight={5} in={show}>
             <Box width="250px" pt="1rem">
-              <Text>{card.long}</Text>
-              <Link href={card.link} isExternal>More Info</Link>
+              {/* <Text>{card.long}</Text>
+              <Link href={card.link} isExternal>More Info</Link> */}
             </Box>
           </Collapse>
         </Flex>

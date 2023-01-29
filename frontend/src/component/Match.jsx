@@ -30,7 +30,7 @@ function Match() {
       setData(result);
     }
     
-    getResult();
+    //getResult();
   }, []);
   
 
