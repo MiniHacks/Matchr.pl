@@ -6,7 +6,7 @@ import Profile from '../util/profile';
 function Hero() {
   return (
     <Flex
-      minHeight="35vh"
+      minHeight="60vh"
       justify="space-around"
       align="center"
       flexDir="column"
@@ -53,7 +53,7 @@ function Options() {
               key={option}
               cursor="pointer" 
               padding="1rem"
-              background="#9CC0E7"
+              bg='#f2becc'
               borderRadius="1rem"
               _hover={{ filter: "brightness(0.7)", color: "black" }}
               onClick={selected}
