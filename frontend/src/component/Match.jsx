@@ -6,6 +6,7 @@ import {
   Image,
   Heading
 } from '@chakra-ui/react';
+import { SiteThemes, SiteSizes } from '../util/global';
 
 
 function Match() {
@@ -31,17 +32,17 @@ function Match() {
         
       });
   return (
-    <Flex gap='25px' align='center' flexDirection='column'>
-      <Heading> match.pol </Heading>
-      <Flex flexDirection='column'>
-        <Box borderRadius= '20' w = '350px' h = '600px' bg="#FAEACB" paddingTop='25px' paddingBottom='50px' paddingRight='25px' paddingLeft='25px' margin-right='25px'>
+    <Flex flexDirection='column' justify="space-around" align='center'>
+      <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
+      <Flex> 
+        <Box borderRadius= '20' w = '350px' h = '700px' bg="#FAEACB" paddingTop='25px' paddingBottom='50px' paddingRight='25px' paddingLeft='25px' margin-right='25px'>
           <Image borderRadius = '20' boxSize='300px' objectFit='cover' src={data.imageUrl} alt={data.cand} />
-          <Text align='center'>{data.candidate}</Text>
-          <Text align='center'>{data.match}% Match</Text>
-          <Text align='center'>{data.description}</Text>
+          <Text fontSize = {SiteSizes.subheading} align='center'>{data.candidate}</Text>
+          <Text fontSize = {SiteSizes.subheading} align='center'>{data.match}% Match</Text>
+          <Text fontSize={SiteSizes.body} align='center'>{data.description}</Text>
         </Box>
       </Flex>
-      
+      <Text paddingTop='25px' fontSize = {SiteSizes.body}> Share with friends: </Text>
     </Flex>
   );
 }
