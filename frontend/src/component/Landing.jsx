@@ -1,17 +1,36 @@
-import React from 'react';
-import {
-  Flex,
-  Box,
-  Text,
-} from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
+import { SiteThemes, SiteSizes } from '../util/global';
+
+function Hero() {
+  return (
+    <Flex
+      flex="1"
+      height="60vh"
+      justify="space-around"
+      align="center"
+      flexDir="column"
+      bg={SiteThemes.mainColor}
+    >
+      <Heading fontSize={SiteSizes.heading}>
+        match.pol
+      </Heading>
+      <Text fontSize={SiteSizes.body}>
+        The place to find your
+      </Text>
+      <Heading fontSize={SiteSizes.subheading}>
+        Political Match
+      </Heading>
+    </Flex>
+  )
+}
+
 
 function Landing() {
-    const candidate = {
-        imageUrl: 'https://bit.ly/2Z4KKcF',
-        imageAlt: 'Joe Biden',
-      }
+
   return (
-    <h1>Landing</h1>
+    <Flex>
+      <Hero />
+    </Flex>
   );
 }
 
