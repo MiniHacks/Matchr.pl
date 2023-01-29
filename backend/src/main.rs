@@ -3,8 +3,23 @@ extern crate rocket;
 use rocket::{get, http::Status, serde::json::Json};
 use rocket_db_pools::{mongodb, Database, Connection};
 use mongodb::bson::doc;
+use serde::{Serialize, Deserialize};
 
 mod cors;
+
+#[derive(Serialize, Deserialize)]
+pub struct NQRequest {
+    pub eid: String,
+    pub uid: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct NQResponse {
+    pub qid: String,
+    pub question: String,
+    pub long: String,
+    pub link: String
+}
 
 #[derive(Database)]
 #[database("mongo")]
@@ -12,6 +27,20 @@ struct Mongo(mongodb::Client);
 
 // Try visiting:
 //   http://127.0.0.1:8000/hello/world
+
+#[get("/nq", data = "<j>")]
+async fn new_question(j: Json<NQRequest>) -> Result<Json<NQResponse>, Status> {
+    let request = j.into_inner();
+
+    let response = NQResponse {
+        qid: String::from("123"),
+        question: String::from("1234"),
+        long: String::from("12345"),
+        link: String::from("123456")
+    };
+    return Ok(Json(response))
+}
+
 #[get("/value")]
 fn value() -> Result<Json<i32>, Status> {
     Ok(Json(45))
@@ -36,5 +65,5 @@ async fn hello(con: Connection<Mongo>) -> Result<Json<String>, Status> {
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().attach(Mongo::init()).attach(cors::Cors).mount("/", routes![value, hello])
+    rocket::build().attach(Mongo::init()).attach(cors::Cors).mount("/", routes![value, hello, new_question])
 }
