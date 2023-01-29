@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Flex, Box, Heading, Text, IconButton, Link, Collapse} from '@chakra-ui/react';
+import { Flex, Box, Heading, Text, IconButton, Link, Collapse, Fade } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
 import { useNavigate } from 'react-router-dom';
 import { InfoIcon } from '@chakra-ui/icons';
@@ -15,6 +15,7 @@ import TinderCard from 'react-tinder-card';
 
 function Swipe() {
   const [card, setCard] = useState(undefined);
+  const [quote, setQuote] = useState(undefined);
   const [show, setShow] = useState(false)
   const [asked, setAsked] = useState(0);
   const cardRef = useRef(0);
@@ -34,7 +35,39 @@ function Swipe() {
     const result = await response.json();
 
     setAsked(lastAsked => lastAsked + 1);
-    setCard(result);
+    setQuote(result.quote);
+    setCard([
+      <Fade in={true} key={asked}>
+        <TinderCard
+          ref={cardRef}
+        >
+          <Flex 
+            flexDir="column" 
+            flex="1"
+            padding="2rem"
+            borderRadius="2rem"
+            bg={SiteThemes.mainColor}
+          >
+            <Box flex="0.5" align="center" fontSize={SiteSizes.subheading}>
+              <Text> Your Thoughts? </Text>
+            </Box>
+            <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
+              <Text>"{result.quote}"</Text>
+            </Box>
+            <Box align="right" >
+              <InfoIcon onClick={setShow(last => !last)} boxSize="30px" />
+            </Box>
+            <Collapse startingHeight={5} in={show}>
+              <Box width="250px" pt="1rem">
+                <Text>{result.long}</Text>
+                <Link href={result.link} isExternal>More Info</Link>
+              </Box>
+            </Collapse>
+          </Flex>
+        </TinderCard>
+      </Fade>
+    ]);
+
   }
 
   useEffect(() => {
@@ -52,7 +85,38 @@ function Swipe() {
       const result = await response.json();
   
       setAsked(lastAsked => lastAsked + 1);
-      setCard(result);
+      setQuote(result.quote);
+      setCard([
+      <Fade in={true} key={asked}>
+        <TinderCard
+          ref={cardRef}
+        >
+          <Flex 
+            flexDir="column" 
+            flex="1"
+            padding="2rem"
+            borderRadius="2rem"
+            bg={SiteThemes.mainColor}
+          >
+            <Box flex="0.5" align="center" fontSize={SiteSizes.subheading}>
+              <Text> Your Thoughts? </Text>
+            </Box>
+            <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
+              <Text>"{result.quote}"</Text>
+            </Box>
+            <Box align="right" >
+              <InfoIcon onClick={setShow(last => !last)} boxSize="30px" />
+            </Box>
+            <Collapse startingHeight={5} in={show}>
+              <Box width="250px" pt="1rem">
+                <Text>{result.long}</Text>
+                <Link href={result.link} isExternal>More Info</Link>
+              </Box>
+            </Collapse>
+          </Flex>
+        </TinderCard>
+      </Fade>
+      ]);
     }
 
     init();
@@ -77,20 +141,15 @@ function Swipe() {
       body: JSON.stringify({ 
         uid: Profile.getID(), 
         eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 
-        question: card.quote,
+        question: quote,
         agreement: option
       })
     });
 
     if (!sent.ok) return;
-
-    await getQuestion();
-    setTimeout(() => {
-      cardRef.current.restoreCard();
-    }, 2000);
+    
+    setTimeout(async () => await getQuestion(), 1000);
   }
-
-  const handleToggle = () => setShow(!show)
 
   if (card === undefined) {
     return <>Still loading..</>
@@ -106,33 +165,7 @@ function Swipe() {
       gap="1rem"
     >
       <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
-      <TinderCard
-        ref={cardRef}
-      >
-        <Flex 
-          flexDir="column" 
-          flex="1"
-          padding="2rem"
-          borderRadius="2rem"
-          bg={SiteThemes.mainColor}
-        >
-          <Box flex="0.5" align="center" fontSize={SiteSizes.subheading}>
-            <Text> Your Thoughts? </Text>
-          </Box>
-          <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
-            <Text>"{card.quote}"</Text>
-          </Box>
-          <Box align="right" >
-            <InfoIcon onClick={handleToggle} boxSize="30px" />
-          </Box>
-          <Collapse startingHeight={5} in={show}>
-            <Box width="250px" pt="1rem">
-              <Text>{card.long}</Text>
-              <Link href={card.link} isExternal>More Info</Link>
-            </Box>
-          </Collapse>
-        </Flex>
-      </TinderCard>
+      {card}
       <Flex gap="1rem" justify="space-between" > 
         <IconButton onClick={() => console.log("based")} bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size={50} />}/>
         <IconButton onClick={() => choice(0)} bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsDown size={50} />}/>
