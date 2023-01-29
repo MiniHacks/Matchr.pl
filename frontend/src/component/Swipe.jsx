@@ -6,6 +6,8 @@ import { InfoIcon } from '@chakra-ui/icons';
 import { FiChevronsUp, FiChevronsDown, FiChevronUp, FiChevronDown, FiChevronLeft } from 'react-icons/fi';
 import Profile from "../util/profile";
 import TinderCard from 'react-tinder-card';
+import JSConfetti from 'js-confetti';
+import { Spinner } from '@chakra-ui/react'
 
 // quote: 'First-trimester abortion is murder',
 // long: 'a way to greet someone',
@@ -14,6 +16,7 @@ import TinderCard from 'react-tinder-card';
 // 72ff8a12-6460-4059-9836-d2d86a091c02
 
 function Swipe() {
+  const jsConfetti = new JSConfetti();
   const [card, setCard] = useState(undefined);
   const [quote, setQuote] = useState(undefined);
   const [show, setShow] = useState(false)
@@ -67,7 +70,6 @@ function Swipe() {
         </TinderCard>
       </Fade>
     ]);
-
   }
 
   useEffect(() => {
@@ -126,12 +128,36 @@ function Swipe() {
   async function choice(option) {
 
     switch (option) {
-      case 0: cardRef.current.swipe('up'); break;
-      case 1: cardRef.current.swipe('left'); break;
-      case 2: cardRef.current.swipe('right'); break;
-      case 3: cardRef.current.swipe('down');
+      case 0:
+        cardRef.current.swipe('up');
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🚽'],
+        })
+        break;
+      case 1:
+        cardRef.current.swipe('left');
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🤢'],
+        })
+        break;
+      case 2:
+        cardRef.current.swipe('right'); 
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['❤️'],
+        })
+        break;
+      default:
+        cardRef.current.swipe('down');
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🔥'],
+        })
     }
-
+  
+  
     if (asked === 15) {
       navigate("/match");
     }
@@ -139,7 +165,7 @@ function Swipe() {
     const sent = await fetch("http://localhost:8000/send", {
       method: "POST",
       body: JSON.stringify({ 
-        uid: Profile.getID(), 
+        uid: 10, //Profile.getID(), 
         eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 
         question: quote,
         agreement: option
@@ -152,8 +178,20 @@ function Swipe() {
   }
 
   if (card === undefined) {
-    return <>Still loading..</>
-  }
+    return (
+      <Flex 
+        flex="1"
+        flexDirection='column' 
+        justify="space-around" 
+        align='center'
+        padding="1rem"
+        gap="1rem"
+      >
+        <Heading position='absolute' top='2.5vh' align='center' fontSize={SiteSizes.heading}> match.pol </Heading>
+        <Spinner position='absolute' bottom= '45vh' right='38vw' thickness='8px' speed='0.65s' boxSize='90px' align-self='center' color= {SiteThemes.mainColor} />
+      </Flex>
+  )};
+
 
   return (
     <Flex 

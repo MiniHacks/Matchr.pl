@@ -22,15 +22,17 @@ if __name__ == '__main__':
         if os.path.isfile(fPath):
             with open(fPath) as f:
                 lines = f.readlines()
+                name = lines[0].strip()
+                desc = lines[1].strip()
                 quotes = []
-                for i in range(0, len(lines), 3):
+                for i in range(2, len(lines) - 2, 3):
                     short = lines[i].strip()
                     long = lines[i + 1].strip()
                     link = lines[i + 2].strip()
                     quotes = []
                     quotes.append({"quote": short, "long": long, "agreement": 3, "link": link})
                 print("pre insert")
-                db["candidates"].insert_one({"cid": filename, "quotes": quotes, "image": idata})
+                db["candidates"].insert_one({"cid": filename, "quotes": quotes, "image": idata, "name": name, "desc": desc})
                 print("post insert")
 
     for filename in os.listdir("./elections"):

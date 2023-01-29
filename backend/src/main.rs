@@ -2,7 +2,7 @@
 extern crate rocket;
 use rocket::{get, http::Status, serde::json::Json};
 use rocket_db_pools::{mongodb, Database, Connection};
-use mongodb::{bson::doc, Collection, bson};
+use mongodb::{bson::doc, Collection, bson, bson::Bson};
 use serde::{Serialize, Deserialize};
 use rand::seq::SliceRandom;
 
@@ -47,6 +47,9 @@ pub struct Quiz {
 pub struct Candidate {
     pub cid: String,
     pub quotes: Vec<Quote>,
+    pub name: String,
+    pub desc: String,
+    pub image: Bson,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -63,7 +66,7 @@ pub struct DoneRequest {
 
 #[derive(Serialize, Deserialize)]
 pub struct DoneResponse {
-    pub image: String,
+    pub image: Bson,
     pub name: String,
     pub desc: String,
     pub agreed: Vec<Quote>,
@@ -206,7 +209,7 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
 
     let candidates: Collection<Candidate> = con.database("rustdb").collection("candidates");
     let mut max_can: Option<Candidate> = None;
-    let mut max_tot: i32 = 0;
+    let mut max_tot: i32 = -9999;
     let mut max_agreed: Option<Vec<Quote>> = None;
     let mut max_disagreed: Option<Vec<Quote>> = None;
 
@@ -222,6 +225,7 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
 
         for quote in candidate.quotes.iter() {
             for qr in quiz.questions.iter() {
+                println!("{} {}", quote.quote.clone(), qr.question.clone());
                 if quote.quote == qr.question {
                     total += qr.response;
                     if quote.agreement == qr.response {
@@ -246,9 +250,9 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
     let disagreed = max_disagreed.unwrap();
 
     let response = DoneResponse {
-        image: String::from("image"),
-        name: String::from("name"),
-        desc: String::from("desc"),
+        image: can.image,
+        name: can.name,
+        desc: can.desc,
         agreed: agreed,
         disagreed: disagreed,
     };
