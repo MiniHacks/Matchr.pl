@@ -15,7 +15,7 @@ function Match() {
 
   useEffect(() => {
     async function getResult() {
-      const response = await fetch('http://matchr.pl:8000/done', {
+      const response = await fetch('http://localhost:8000/done', {
         method: "POST",
         body: JSON.stringify({ 
           eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 

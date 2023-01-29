@@ -25,7 +25,7 @@ function Swipe() {
   const navigate = useNavigate();
 
   async function getQuestion() {
-    const response = await fetch("http://matchr.pl:8000/nq", {
+    const response = await fetch("http://localhost:8000/nq", {
       method: "POST",
       body: JSON.stringify({
         uid: Profile.getID(), 
@@ -74,7 +74,7 @@ function Swipe() {
 
   useEffect(() => {
     async function init() {
-      const response = await fetch("http://matchr.pl:8000/nq", {
+      const response = await fetch("http://localhost:8000/nq", {
         method: "POST",
         body: JSON.stringify({
           uid: Profile.getID(), 
@@ -130,31 +130,31 @@ function Swipe() {
     switch (option) {
       case 0:
         cardRef.current.swipe('up');
-        // jsConfetti.addConfetti({
-        //   emojiSize: 150,
-        //   emojis: ['🚽'],
-        // })
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🚽'],
+        })
         break;
       case 1:
         cardRef.current.swipe('left');
-        // jsConfetti.addConfetti({
-        //   emojiSize: 150,
-        //   emojis: ['🤢'],
-        // })
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🤢'],
+        })
         break;
       case 2:
         cardRef.current.swipe('right'); 
-        // jsConfetti.addConfetti({
-        //   emojiSize: 150,
-        //   emojis: ['❤️'],
-        // })
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['❤️'],
+        })
         break;
       default:
         cardRef.current.swipe('down');
-        // jsConfetti.addConfetti({
-        //   emojiSize: 150,
-        //   emojis: ['🔥'],
-        // })
+        jsConfetti.addConfetti({
+          emojiSize: 150,
+          emojis: ['🔥'],
+        })
     }
   
   
@@ -162,10 +162,10 @@ function Swipe() {
       navigate("/match");
     }
 
-    const sent = await fetch("http://matchr.pl:8000/send", {
+    const sent = await fetch("http://localhost:8000/send", {
       method: "POST",
       body: JSON.stringify({ 
-        uid: 10, //Profile.getID(), 
+        uid: Profile.getID(), 
         eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 
         question: quote,
         agreement: option
@@ -202,35 +202,8 @@ function Swipe() {
       padding="1rem"
       gap="1rem"
     >
-<<<<<<< HEAD
       <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
       {card}
-=======
-      <Heading fontSize={SiteSizes.heading}> matchr.pl </Heading>
-      <Flex 
-        flexDir="column" 
-        flex="1"
-        padding="2rem"
-        borderRadius="2rem"
-        bg={SiteThemes.mainColor}
-      >
-        <Box flex="0.5" align="center" fontSize={SiteSizes.subheading}>
-          <Text> Your Thoughts? </Text>
-        </Box>
-        <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
-          <Text>"{card.quote}"</Text>
-        </Box>
-        <Box align="right" >
-          <InfoIcon onClick={handleToggle} boxSize="30px" />
-        </Box>
-        <Collapse startingHeight={5} in={show}>
-          <Box width="250px" pt="1rem">
-            <Text>{card.long}</Text>
-            <Link href={card.link} isExternal>More Info</Link>
-          </Box>
-        </Collapse>
-      </Flex>
->>>>>>> 634382c4ea8bd6aab663cd9caa92ba61f5c6ec0f
       <Flex gap="1rem" justify="space-between" > 
         <IconButton onClick={() => console.log("based")} bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronLeft size={50} />}/>
         <IconButton onClick={() => choice(0)} bg={SiteThemes.backgroundColor} isRound='true' icon={<FiChevronsDown size={50} />}/>
