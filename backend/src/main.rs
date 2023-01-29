@@ -2,7 +2,7 @@
 extern crate rocket;
 use rocket::{get, http::Status, serde::json::Json};
 use rocket_db_pools::{mongodb, Database, Connection};
-use mongodb::{bson::doc, Collection};
+use mongodb::{bson::doc, Collection, bson};
 use serde::{Serialize, Deserialize};
 use rand::seq::SliceRandom;
 
@@ -14,6 +14,14 @@ pub struct NQRequest {
     pub uid: String
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct SNRequest {
+    pub eid: String,
+    pub uid: String,
+    pub question: String,
+    pub agreement: i32,
+}
+
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Quote {
     pub quote: String,
@@ -22,7 +30,7 @@ pub struct Quote {
     pub agreement: i32,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct QuestionResponse {
     pub question: String,
     pub response: i32,
@@ -69,7 +77,7 @@ struct Mongo(mongodb::Client);
 // Try visiting:
 //   http://127.0.0.1:8000/hello/world
 
-#[get("/nq", data = "<j>")]
+#[post("/nq", data = "<j>")]
 async fn new_question(j: Json<NQRequest>, con: Connection<Mongo>) -> Result<Json<Quote>, Status> {
     let request = j.into_inner();
 
@@ -118,6 +126,44 @@ async fn new_question(j: Json<NQRequest>, con: Connection<Mongo>) -> Result<Json
     return Ok(Json(quote.clone()))
 }
 
+#[post("/send", data = "<j>")]
+async fn send(con: Connection<Mongo>, j: Json<SNRequest>) -> Result<Json<String>, Status> {
+    let request = j.into_inner();
+
+    let filter = doc! {
+        "eid": request.eid.clone(),
+        "uid": request.uid.clone(),
+    };
+
+    let quizzes: Collection<Quiz> = con.database("rustdb").collection("quizzes");
+    let mongo_quiz = quizzes.find_one(filter.clone(), None).await.unwrap();
+    match mongo_quiz {
+        Some(quiz) => {
+            let mut v = quiz.questions.clone();
+
+            v.push(
+                QuestionResponse {
+                    question: request.question.clone(),
+                    response: request.agreement.clone(),
+                }
+            );
+
+            let update = doc!{
+                "$set": {
+                    "questions": bson::to_bson(&v.clone()).unwrap(),
+                }
+            };
+
+            quizzes.update_one(filter, update, None).await;
+        },
+        None => {
+            println!("No quiz found");
+        },
+    }
+
+    Ok(Json(String::from("Based")))
+}
+
 #[get("/value")]
 fn value() -> Result<Json<i32>, Status> {
     Ok(Json(45))
@@ -140,7 +186,7 @@ async fn hello(con: Connection<Mongo>) -> Result<Json<String>, Status> {
     Ok(Json(String::from("Hello from rust and mongoDB")))
 }
 
-#[get("/done", data = "<j>")]
+#[post("/done", data = "<j>")]
 async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneResponse>, Status> {
     let request = j.into_inner();
     let filter = doc! {
@@ -211,5 +257,5 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().attach(Mongo::init()).attach(cors::Cors).mount("/", routes![value, hello, new_question, done])
+    rocket::build().attach(Mongo::init()).attach(cors::Cors).mount("/", routes![value, hello, new_question, send, done])
 }
