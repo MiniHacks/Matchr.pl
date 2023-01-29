@@ -49,7 +49,7 @@ function Swipe() {
           <Text> Your Thoughts? </Text>
         </Box>
         <Box flex="0.8" align="center" fontSize={SiteSizes.subheading}>
-          <Text>{card.quote}</Text>
+          <Text>"{card.quote}"</Text>
         </Box>
       </Flex>
       <Flex gap="1rem" justify="space-between" > 
