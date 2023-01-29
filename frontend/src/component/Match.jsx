@@ -7,35 +7,46 @@ import {
   Heading
 } from '@chakra-ui/react';
 import { SiteThemes, SiteSizes } from '../util/global';
+import Profile from '../util/profile';
 
 
 function Match() {
-  const [data, setData] = useState({
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/68/Joe_Biden_presidential_portrait.jpg',
-    cand: 'Joe Biden',
-    match: '88',
-    description: 'description'
-  })
+  const [data, setData] = useState(undefined);
 
   useEffect(() => {
-    async function getResults(){
-      const response = await fetch('http://localhost:8000/done');
+    async function getResult() {
+      const response = await fetch('http://localhost:8000/done', {
+        method: "POST",
+        body: JSON.stringify({ 
+          eid: "72ff8a12-6460-4059-9836-d2d86a091c02", 
+          uid: Profile.getID() 
+        })
+      });
+
       if (!response.ok) return;
+
       const result = await response.json();
+
       setData(result);
     }
-    //getResults();
     
-  });
+    getResult();
+  }, []);
+  
+
+  if (data === undefined) {
+    return <>Still loading..</>
+  }
+
   return (
     <Flex flexDirection='column' justify="space-around" align='center'>
       <Heading fontSize={SiteSizes.heading}> match.pol </Heading>
       <Flex> 
         <Box borderRadius= '20' w = '350px' h = '700px' bg="#FAEACB" paddingTop='25px' paddingBottom='50px' paddingRight='25px' paddingLeft='25px' margin-right='25px'>
-          <Image borderRadius = '20' boxSize='300px' objectFit='cover' src={data.imageUrl} alt={data.cand} />
-          <Text fontSize = {SiteSizes.subheading} align='center'>{data.candidate}</Text>
-          <Text fontSize = {SiteSizes.subheading} align='center'>{data.match}% Match</Text>
-          <Text fontSize={SiteSizes.body} align='center'>{data.description}</Text>
+          <Image borderRadius = '20' boxSize='300px' objectFit='cover' src={`data:image/jpeg;base64,${data.image}`} alt={data.cand} />
+          <Text fontSize = {SiteSizes.subheading} align='center'>{data.name}</Text>
+          <Text fontSize = {SiteSizes.subheading} align='center'>{data.agreed.length / (data.agreed.length + data.disagreed.length)}% Match</Text>
+          <Text fontSize={SiteSizes.body} align='center'>{data.desc}</Text>
         </Box>
       </Flex>
       <Text paddingTop='25px' fontSize = {SiteSizes.body}> Share with friends: </Text>

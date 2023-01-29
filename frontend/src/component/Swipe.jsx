@@ -31,7 +31,7 @@ function Swipe() {
 
     const result = await response.json();
 
-    setAsked(lastAsked => lastAsked++);
+    setAsked(lastAsked => lastAsked + 1);
     setCard(result);
   }
 
@@ -49,7 +49,7 @@ function Swipe() {
   
       const result = await response.json();
   
-      setAsked(lastAsked => lastAsked++);
+      setAsked(lastAsked => lastAsked + 1);
       setCard(result);
     }
 
@@ -58,6 +58,11 @@ function Swipe() {
 
   // 0 superdislike, 1 dislike, 2 like, 3 superlike
   async function choice(option) {
+
+    if (asked === 15) {
+      navigate("/match");
+    }
+
     const sent = await fetch("http://localhost:8000/send", {
       method: "POST",
       body: JSON.stringify({ 
@@ -74,10 +79,6 @@ function Swipe() {
   }
 
   const handleToggle = () => setShow(!show)
-
-  if (asked === 15) {
-    navigate("/match");
-  }
 
   if (card === undefined) {
     return <>Still loading..</>
@@ -107,7 +108,7 @@ function Swipe() {
           <Text>"{card.quote}"</Text>
         </Box>
         <Box align="right" >
-          <InfoIcon onClick={handleToggle} boxSize="30px" colorScheme="black"/>
+          <InfoIcon onClick={handleToggle} boxSize="30px" />
         </Box>
         <Collapse startingHeight={5} in={show}>
           <Box width="250px" pt="1rem">
