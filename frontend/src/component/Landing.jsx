@@ -6,7 +6,7 @@ import Profile from '../util/profile';
 function Hero() {
   return (
     <Flex
-      minHeight="75vh"
+      minHeight="60vh"
       justify="space-around"
       align="center"
       flexDir="column"
@@ -18,7 +18,7 @@ function Hero() {
       <Text fontSize={SiteSizes.body}>
         The place to find your
       </Text>
-      <Heading fontSize={SiteSizes.subheading}>
+      <Heading fontSize={SiteSizes.electionheading}>
         Political Match
       </Heading>
     </Flex>
@@ -43,7 +43,7 @@ function Options() {
       padding="1rem"
       paddingTop="0rem"
     >
-      <Text fontSize={SiteSizes.body}>
+      <Text align='center' fontSize={SiteSizes.body}>
         Select The Election You Wish To Find Your Match At
       </Text>
       {
@@ -53,12 +53,12 @@ function Options() {
               key={option}
               cursor="pointer" 
               padding="1rem"
-              background="#9CC0E7"
+              bg='#f2becc'
               borderRadius="1rem"
               _hover={{ filter: "brightness(0.7)", color: "black" }}
               onClick={selected}
             >
-              <Text fontSize={SiteSizes.subbody}>{option}</Text>
+              <Text fontSize={SiteSizes.election}>{option}</Text>
             </Box>
           );
         })

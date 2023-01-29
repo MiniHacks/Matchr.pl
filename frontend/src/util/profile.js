@@ -12,7 +12,7 @@ function generateID(length) {
 
 const Profile = (function() {
   const id = generateID(34);
-  let election = '';
+  let election = undefined;
 
   const getID = () => id;
   const getElection = () => election;
