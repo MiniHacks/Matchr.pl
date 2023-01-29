@@ -8,9 +8,17 @@ if __name__ == '__main__':
     print("post client")
 
     db = client["rustdb"]
+    db["candidates"].drop()
+    db["elections"].drop()
+    db["quizzes"].drop()
     print("post candidates")
     for filename in os.listdir("./candidates"):
         fPath = os.path.join("./candidates", filename)
+        iPath = os.path.join("./images", filename + ".png")
+        idata = None
+        if os.path.isfile(iPath):
+            with open(iPath, "rb") as f:
+                idata = f.read()
         if os.path.isfile(fPath):
             with open(fPath) as f:
                 lines = f.readlines()
@@ -22,7 +30,7 @@ if __name__ == '__main__':
                     quotes = []
                     quotes.append({"quote": short, "long": long, "agreement": 3, "link": link})
                 print("pre insert")
-                db["candidates"].insert_one({"cid": filename, "quotes": quotes})
+                db["candidates"].insert_one({"cid": filename, "quotes": quotes, "image": idata})
                 print("post insert")
 
     for filename in os.listdir("./elections"):
