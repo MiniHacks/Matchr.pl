@@ -206,7 +206,7 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
 
     let candidates: Collection<Candidate> = con.database("rustdb").collection("candidates");
     let mut max_can: Option<Candidate> = None;
-    let mut max_tot: i32 = 0;
+    let mut max_tot: i32 = -9999;
     let mut max_agreed: Option<Vec<Quote>> = None;
     let mut max_disagreed: Option<Vec<Quote>> = None;
 
@@ -222,6 +222,7 @@ async fn done(j: Json<DoneRequest>, con: Connection<Mongo>) -> Result<Json<DoneR
 
         for quote in candidate.quotes.iter() {
             for qr in quiz.questions.iter() {
+                println!("{} {}", quote.quote.clone(), qr.question.clone());
                 if quote.quote == qr.question {
                     total += qr.response;
                     if quote.agreement == qr.response {
